@@ -20,8 +20,18 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Message sent:", formData);
-    alert("Thank you for contacting us! We'll get back to you soon.");
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    // Simulation of success state
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerText;
+    btn.innerText = "Sending...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+      alert("Thank you for contacting us! We've received your message and will get back to you soon.");
+      btn.innerText = originalText;
+      btn.disabled = false;
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    }, 1500);
   };
 
   return (
@@ -119,9 +129,9 @@ const Contact = () => {
         </div>
 
         {/* Social Media / Additional Info */}
-        <div className="max-w-2xl mx-auto mt-16 bg-green-50 dark:bg-green-900/30 p-8 rounded-lg text-center border-2 border-green-200 dark:border-green-800/50 transition-colors duration-300 relative pb-12 overflow-hidden">
-          <h3 className="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Follow Us</h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-12">Connect with us on social media for updates and stories</p>
+        <div className="max-w-2xl mx-auto mt-16 bg-green-50 dark:bg-green-900/30 p-8 rounded-2xl text-center border-2 border-green-200 dark:border-green-800/50 transition-colors duration-300 relative pb-12 overflow-hidden">
+          <h3 className="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Follow Our Journey</h3>
+          <p className="text-gray-700 dark:text-gray-300 mb-12">Connect with us on social media for daily updates and impact stories.</p>
           <div className="flex justify-center h-16 relative z-10">
             <TooltipLinks />
           </div>

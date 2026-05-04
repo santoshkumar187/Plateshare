@@ -35,6 +35,7 @@ const getNavLinks = (user) => {
     links.push(['Donate Food', '/donate']);
   }
   links.push(['About', '/about']);
+  links.push(['Contact', '/contact']);
   return links;
 };
 
