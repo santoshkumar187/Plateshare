@@ -2,12 +2,12 @@
   "name": "plateshare",
   "version": "1.0.0",
   "description": "PlateShare Root Project",
-  "main": "index.js",
+  "main": "backend/server.js",
   "license": "MIT",
   "scripts": {
-    "postinstall": "npm install --prefix backend",
-    "build": "npm install --prefix backend",
-    "start": "npm start --prefix backend",
+    "install-backend": "cd backend && npm install",
+    "build": "npm run install-backend",
+    "start": "node backend/server.js",
     "backend": "npm start --prefix backend",
     "frontend": "npm run dev --prefix frontend"
   },
