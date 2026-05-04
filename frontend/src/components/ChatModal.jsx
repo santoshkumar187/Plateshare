@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import api from '../api/axios';
 import { useNotifications } from '../context/NotificationContext';
 import { IoClose, IoSend, IoImageOutline, IoCloseCircle } from 'react-icons/io5';
-
-// WhatsApp-style tick icon
+// Cache bust: v3
 const TickIcon = ({ read }) => (
   <svg viewBox="0 0 16 11" width="16" height="11" className="inline-block ml-1 flex-shrink-0">
     {/* First tick */}
@@ -220,7 +219,7 @@ const ChatModal = ({ isOpen, onClose, deliveryId, currentUser, targetUser }) => 
                       {msg.imageUrl && (
                         <div className="mb-1 -mx-2 -mt-1 pt-1 px-1">
                           <img
-                            src={`http://${window.location.hostname}:5000${msg.imageUrl}`}
+                            src={msg.imageUrl}
                             alt="Attachment"
                             className="rounded-lg max-h-60 w-auto object-cover cursor-pointer hover:opacity-95 transition"
                           />

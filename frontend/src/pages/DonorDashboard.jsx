@@ -11,6 +11,7 @@ import { useNotifications } from '../context/NotificationContext';
 
 const STATUS_STYLES = {
   available: 'bg-[#e6f4ea] text-[#188038]',
+// Cache bust: v3
   claimed: 'bg-[#e8f0fe] text-[#1a73e8]',
   delivered: 'bg-[#f3e8fd] text-[#8430ce]',
   expired: 'bg-[#fce8e6] text-[#d93025]',
@@ -194,7 +195,7 @@ const DonorDashboard = () => {
                         <td className="px-5 py-4">
                           <div className="w-12 h-12 rounded bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
                             {post.imageUrl ? (
-                              <img src={`http://${window.location.hostname}:5000${post.imageUrl}`} alt={post.title} className="w-full h-full object-cover" />
+                              <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
                             ) : (
                               <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
