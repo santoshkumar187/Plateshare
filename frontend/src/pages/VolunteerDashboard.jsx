@@ -27,6 +27,8 @@ const VolunteerDashboard = () => {
   const [chatDelivery, setChatDelivery] = useState(null);
   const [chatTarget, setChatTarget] = useState(null);
   const [ratingData, setRatingData] = useState({ averageStars: 0, totalRatings: 0, ratings: [] });
+  const processedEventIdRef = useRef(null);
+// Cache bust: v5
 
   // 1. Auto-open chat when navigated here from a popup (user was on another page)
   useEffect(() => {
@@ -45,9 +47,12 @@ const VolunteerDashboard = () => {
   useEffect(() => {
     if (lastEvent?.type !== 'CHAT_MESSAGE') return;
     const d = lastEvent.data;
-    if (!d?.deliveryId) return;
+    if (!d?.deliveryId || !d._id) return;
+    if (processedEventIdRef.current === d._id) return;
     // Don't override an already-open chat for a different delivery
     if (chatDelivery && chatDelivery !== d.deliveryId) return;
+
+    processedEventIdRef.current = d._id;
     setChatDelivery(d.deliveryId);
     setChatTarget({
       _id: d.sender,

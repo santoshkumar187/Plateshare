@@ -38,6 +38,8 @@ const DonorDashboard = () => {
   // Rating state
   const [ratingMap, setRatingMap] = useState({});  // deliveryId -> stars
   const [ratingTarget, setRatingTarget] = useState(null); // { deliveryId, volunteerName }
+  const processedEventIdRef = useRef(null);
+// Cache bust: v5
 
   // Helper: open chat + scroll to donations section + highlight the row
   const openChatAndScroll = useCallback((deliveryId, target) => {
@@ -68,8 +70,13 @@ const DonorDashboard = () => {
   useEffect(() => {
     if (lastEvent?.type !== 'CHAT_MESSAGE') return;
     const d = lastEvent.data;
-    if (!d?.deliveryId) return;
+    if (!d?.deliveryId || !d._id) return;
+    if (processedEventIdRef.current === d._id) return;
+    
+    // Don't override an already-open chat for a different delivery
     if (chatDelivery && chatDelivery !== d.deliveryId) return;
+
+    processedEventIdRef.current = d._id;
     openChatAndScroll(d.deliveryId, {
       _id: d.sender,
       name: d.senderName || 'User',
