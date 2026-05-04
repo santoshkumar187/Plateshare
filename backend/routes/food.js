@@ -3,6 +3,7 @@ const router = express.Router();
 const FoodPost = require('../models/FoodPost');
 const Delivery = require('../models/Delivery');
 const { protect } = require('../middleware/auth');
+const { sendNotification } = require('./notifications');
 const multer = require('multer');
 const path = require('path');
 
@@ -167,12 +168,11 @@ router.post('/', protect, async (req, res) => {
     const post = await FoodPost.create({
       title, quantity, unit: unit || 'kg', location,
       coordinates: coordinates || { lat: null, lng: null },
-      expiryTime, description, imageUrl: imageUrl || '', donor: req.user._id,
+      preparedTime, expiryTime, description, imageUrl: imageUrl || '', donor: req.user._id,
     });
     const populated = await post.populate('donor', 'name email');
     
     // Trigger real-time notification
-    const { sendNotification } = require('./notifications');
     sendNotification({
       type: 'NEW_FOOD',
       title: 'New Food Posted Nearby!',

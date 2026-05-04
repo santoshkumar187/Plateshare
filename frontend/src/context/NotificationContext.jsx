@@ -86,7 +86,7 @@ export const NotificationProvider = ({ children }) => {
     }
 
     const token = localStorage.getItem('token');
-    const url = `http://${window.location.hostname}:5000/api/notifications/stream?token=${token}`;
+    const url = `${window.location.origin}/api/notifications/stream?token=${token}`;
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = (event) => {
