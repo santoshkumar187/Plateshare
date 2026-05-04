@@ -9,6 +9,7 @@
     "install-frontend": "cd frontend && npm install",
     "build-frontend": "cd frontend && npm run build",
     "build": "npm run install-backend && npm run install-frontend && npm run build-frontend",
+    "postinstall": "npm run build",
     "start": "node backend/server.js",
     "backend": "npm start --prefix backend",
     "frontend": "npm run dev --prefix frontend"
