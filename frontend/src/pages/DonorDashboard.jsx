@@ -171,92 +171,74 @@ const DonorDashboard = () => {
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-[#f8f9fa] dark:bg-gray-700/50 border-b border-[#e8eaed] dark:border-gray-700">
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-[#5f6368] dark:text-gray-400 uppercase tracking-wide">Photo</th>
-                    {['Food', 'Qty', 'Location', 'Claimed By', 'Status', ''].map((h) => (
-                      <th key={h} className="px-5 py-3 text-left text-xs font-semibold text-[#5f6368] dark:text-gray-400 uppercase tracking-wide">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {posts.map((post) => {
-                    const isHighlighted = post.deliveryId && post.deliveryId.toString() === highlightedPostDeliveryId;
-                    return (
-                      <tr
-                        key={post._id}
-                        className={`row-hover border-t border-[#f1f3f4] dark:border-gray-700 transition-all duration-500 ${isHighlighted ? 'ring-2 ring-inset ring-blue-400 dark:ring-blue-500 bg-blue-50/60 dark:bg-blue-900/20' : ''
-                          }`}
-                      >
-                        <td className="px-5 py-4">
-                          <div className="w-12 h-12 rounded bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
-                            {post.imageUrl ? (
-                              <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
-                            ) : (
-                              <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                              </svg>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-5 py-4 font-medium text-[#202124] dark:text-gray-200">{post.title}</td>
-                        <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400">{post.quantity} {post.unit}</td>
-                        <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400 max-w-[160px] truncate">{post.location}</td>
-                        <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400">{post.claimedBy?.name || <span className="text-[#9aa0a6] dark:text-gray-500">—</span>}</td>
-                        <td className="px-5 py-4">
-                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_STYLES[post.status]}`}>
-                            {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
-                          </span>
-                        </td>
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            {isHighlighted && (
-                              <span className="text-[10px] font-bold bg-blue-500 text-white px-2 py-0.5 rounded-full animate-pulse">
-                                💬 New msg
-                              </span>
-                            )}
-                            {post.status === 'available' && (
-                              <button
-                                onClick={() => handleDelete(post._id)}
-                                className="text-xs font-medium text-[#d93025] dark:text-red-400 hover:text-[#a50e0e] hover:underline transition-colors"
-                              >
-                                Delete
-                              </button>
-                            )}
-                            {post.deliveryId && post.claimedBy && (
-                              <button
-                                onClick={() => openChatAndScroll(post.deliveryId, post.claimedBy)}
-                                className="text-xs font-semibold text-[#2f855a] dark:text-green-400 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/40 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
-                              >
-                                Message
-                              </button>
-                            )}
-                            {/* Rate button for delivered posts */}
-                            {post.status === 'delivered' && post.deliveryId && (
-                              ratingMap[post.deliveryId] ? (
-                                <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-700/60 px-3 py-1.5 rounded-full flex items-center gap-1">
-                                  {'⭐'.repeat(ratingMap[post.deliveryId])} Rated
-                                </span>
-                              ) : (
-                                <button
-                                  onClick={() => setRatingTarget({ deliveryId: post.deliveryId, volunteerName: post.claimedBy?.name })}
-                                  className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/40 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
-                                >
-                                  ⭐ Rate
-                                </button>
-                              )
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div className="w-full">
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-[#f8f9fa] dark:bg-gray-700/50 border-b border-[#e8eaed] dark:border-gray-700">
+                      <th className="px-5 py-3 text-left text-xs font-semibold text-[#5f6368] dark:text-gray-400 uppercase tracking-wide">Photo</th>
+                      {['Food', 'Qty', 'Location', 'Claimed By', 'Status', ''].map((h) => (
+                        <th key={h} className="px-5 py-3 text-left text-xs font-semibold text-[#5f6368] dark:text-gray-400 uppercase tracking-wide">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {posts.map((post) => {
+                      const isHighlighted = post.deliveryId && post.deliveryId.toString() === highlightedPostDeliveryId;
+                      return (
+                        <tr key={post._id} className={`row-hover border-t border-[#f1f3f4] dark:border-gray-700 transition-all duration-500 ${isHighlighted ? 'bg-blue-50/60 dark:bg-blue-900/20' : ''}`}>
+                          <td className="px-5 py-4">
+                            <div className="w-12 h-12 rounded bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+                              {post.imageUrl ? <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" /> : <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
+                            </div>
+                          </td>
+                          <td className="px-5 py-4 font-medium text-[#202124] dark:text-gray-200">{post.title}</td>
+                          <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400">{post.quantity} {post.unit}</td>
+                          <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400 max-w-[160px] truncate">{post.location}</td>
+                          <td className="px-5 py-4 text-[#5f6368] dark:text-gray-400">{post.claimedBy?.name || '—'}</td>
+                          <td className="px-5 py-4">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${STATUS_STYLES[post.status]}`}>{post.status}</span>
+                          </td>
+                          <td className="px-5 py-4">
+                            <div className="flex items-center gap-2">
+                              {post.status === 'available' && <button onClick={() => handleDelete(post._id)} className="text-xs text-red-600 hover:underline">Delete</button>}
+                              {post.deliveryId && post.claimedBy && <button onClick={() => openChatAndScroll(post.deliveryId, post.claimedBy)} className="text-xs font-bold text-[#2f855a] bg-green-50 px-3 py-1.5 rounded-full">Chat</button>}
+                              {post.status === 'delivered' && post.deliveryId && !ratingMap[post.deliveryId] && <button onClick={() => setRatingTarget({ deliveryId: post.deliveryId, volunteerName: post.claimedBy?.name })} className="text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full">Rate</button>}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-700">
+                {posts.map((post) => (
+                  <div key={post._id} className="p-4 flex flex-col gap-3">
+                    <div className="flex gap-3">
+                      <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden shrink-0">
+                        {post.imageUrl ? <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-gray-900 dark:text-white truncate">{post.title}</h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{post.quantity} {post.unit} · {post.location}</p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${STATUS_STYLES[post.status]}`}>{post.status}</span>
+                          {post.claimedBy && <span className="text-[10px] text-gray-500 italic truncate">Claimed by {post.claimedBy.name}</span>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      {post.status === 'available' && <button onClick={() => handleDelete(post._id)} className="flex-1 py-2 text-xs font-bold text-red-600 bg-red-50 rounded-lg">Delete</button>}
+                      {post.deliveryId && post.claimedBy && <button onClick={() => openChatAndScroll(post.deliveryId, post.claimedBy)} className="flex-1 py-2 text-xs font-bold text-white bg-[#2f855a] rounded-lg">Open Chat</button>}
+                      {post.status === 'delivered' && post.deliveryId && !ratingMap[post.deliveryId] && <button onClick={() => setRatingTarget({ deliveryId: post.deliveryId, volunteerName: post.claimedBy?.name })} className="flex-1 py-2 text-xs font-bold text-white bg-amber-500 rounded-lg">Rate Experience</button>}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

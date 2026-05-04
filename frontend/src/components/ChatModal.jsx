@@ -154,10 +154,10 @@ const ChatModal = ({ isOpen, onClose, deliveryId, currentUser, targetUser }) => 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-0">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-
-      <div className="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[600px] max-h-[90vh] animate-fade-in border border-gray-200 dark:border-gray-700">
+      {/* Cache bust: v4 */}
+      <div className="relative w-full h-full sm:h-[600px] sm:max-w-md sm:max-h-[90vh] bg-white dark:bg-gray-900 sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-fade-in border-x sm:border border-gray-200 dark:border-gray-700">
 
         {/* Header */}
         <div className="px-5 py-4 bg-[#2f855a] text-white flex justify-between items-center shadow-md z-10 shrink-0">
