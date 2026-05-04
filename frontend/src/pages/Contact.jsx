@@ -45,7 +45,7 @@ const Contact = () => {
           <div className="hover-lift animate-slide-up-delay-1 bg-teal-50 dark:bg-teal-900/30 p-8 rounded-lg text-center border-2 border-teal-200 dark:border-teal-800/50 transition-colors duration-300 cursor-default">
             <div className="text-4xl mb-4">📧</div>
             <h3 className="text-xl font-bold text-teal-600 dark:text-teal-400 mb-2">Email</h3>
-            <p className="text-gray-700 dark:text-gray-300">hello@plateshare.com</p>
+            <p className="text-gray-700 dark:text-gray-300">santoshkingole14122002@gmail.com</p>
           </div>
 
           {/* Phone */}
