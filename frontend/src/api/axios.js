@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+// Cache bust: v2
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
 });

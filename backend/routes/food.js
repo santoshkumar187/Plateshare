@@ -10,7 +10,7 @@ const path = require('path');
 // Configure multer storage
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, path.join(process.cwd(), 'uploads/'));
+    cb(null, path.resolve('uploads'));
   },
   filename(req, file, cb) {
     // e.g. food-1634567890123.jpg
@@ -160,7 +160,7 @@ router.post('/', protect, async (req, res) => {
   if (req.user.role !== 'donor')
     return res.status(403).json({ message: 'Only donors can post food' });
 
-  const { title, quantity, unit, location, expiryTime, description, coordinates, imageUrl } = req.body;
+  const { title, quantity, unit, location, preparedTime, expiryTime, description, coordinates, imageUrl } = req.body;
   if (!title || !quantity || !location || !expiryTime)
     return res.status(400).json({ message: 'Please fill all required fields' });
 

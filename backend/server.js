@@ -18,7 +18,7 @@ app.use(express.json());
 
 // Ensure uploads directory exists
 const fs = require('fs');
-const uploadsDir = path.join(process.cwd(), 'uploads');
+const uploadsDir = path.resolve('uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
