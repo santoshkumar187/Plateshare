@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "install-backend": "cd backend && npm install",
-    "build": "npm run install-backend",
+    "install-frontend": "cd frontend && npm install",
+    "build-frontend": "cd frontend && npm run build",
+    "build": "npm run install-backend && npm run install-frontend && npm run build-frontend",
     "start": "node backend/server.js",
     "backend": "npm start --prefix backend",
     "frontend": "npm run dev --prefix frontend"

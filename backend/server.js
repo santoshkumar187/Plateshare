@@ -26,8 +26,18 @@ app.use('/api/messages', require('./routes/messages'));
 app.use('/api/ratings', require('./routes/ratings'));
 
 
+const path = require('path');
+
 // Health check
-app.get('/', (req, res) => res.json({ message: 'PlateShare API running' }));
+app.get('/api/health', (req, res) => res.json({ message: 'PlateShare API running' }));
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Fallback for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
 
 // MongoDB + Server
 const PORT = process.env.PORT || 5000;
