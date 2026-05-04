@@ -8,8 +8,9 @@ const ImpactTracking = () => {
 
   useEffect(() => {
     const fetchImpact = async () => {
+// Cache bust: v5
       try {
-        const response = await api.get('/api/food/impact');
+        const response = await api.get('/food/impact');
         setImpact(response.data);
       } catch (error) {
         console.error('Error fetching impact data:', error);

@@ -12,12 +12,28 @@ const heroImages = [hero1, hero2, hero3, hero4, hero5];
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [impact, setImpact] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 4000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchImpact = async () => {
+      try {
+        const response = await api.get('/food/impact');
+        setImpact(response.data);
+      } catch (error) {
+        console.error('Error fetching impact data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchImpact();
   }, []);
 
   return (
@@ -114,30 +130,44 @@ const Home = () => {
         {/* Features */}
         <div className="w-screen px-4 py-16 sm:py-20 md:py-24 transition-colors duration-300 bg-[#fffaf4]/80 dark:bg-gray-900/80 backdrop-blur-sm">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-12 sm:mb-16 text-[#1f6f43] dark:text-green-400">
-            Features
+            Why Choose PlateShare?
           </h2>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-
-            <div className="hover-lift bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-[#2f855a] dark:border-green-500 cursor-default">
-              <h3 className="text-xl font-bold text-[#2f855a] dark:text-green-400 mb-3">📡 Real-time Location</h3>
-              <p className="text-gray-700 dark:text-gray-300">Find food and volunteers near you with instant location tracking.</p>
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {/* Real-time Location */}
+            <div className="group hover:bg-white dark:hover:bg-gray-800 p-8 rounded-2xl transition-all duration-300 border border-transparent hover:border-green-100 dark:hover:border-green-900 hover:shadow-xl text-center flex flex-col items-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center text-[#2f855a] dark:text-green-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-3xl">📡</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#2f855a] dark:text-green-400 mb-3 text-center">Real-time Location</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm text-center leading-relaxed">Find food and volunteers near you with instant location tracking.</p>
             </div>
 
-            <div className="hover-lift bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-[#f4a261] cursor-default">
-              <h3 className="text-xl font-bold text-[#f4a261] mb-3">💬 Direct Chat</h3>
-              <p className="text-gray-700 dark:text-gray-300">Communicate directly with donors and volunteers for coordination.</p>
+            {/* Direct Chat */}
+            <div className="group hover:bg-white dark:hover:bg-gray-800 p-8 rounded-2xl transition-all duration-300 border border-transparent hover:border-orange-100 dark:hover:border-orange-900/30 hover:shadow-xl text-center flex flex-col items-center">
+              <div className="w-16 h-16 bg-orange-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center text-[#f4a261] mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-3xl">💬</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#f4a261] mb-3 text-center">Direct Chat</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm text-center leading-relaxed">Communicate directly with donors and volunteers for coordination.</p>
             </div>
 
-            <div className="hover-lift bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-[#2f855a] dark:border-green-500 cursor-default">
-              <h3 className="text-xl font-bold text-[#2f855a] dark:text-green-400 mb-3">🔔 Notifications</h3>
-              <p className="text-gray-700 dark:text-gray-300">Get instant alerts when new food is posted nearby.</p>
+            {/* Notifications */}
+            <div className="group hover:bg-white dark:hover:bg-gray-800 p-8 rounded-2xl transition-all duration-300 border border-transparent hover:border-green-100 dark:hover:border-green-900 hover:shadow-xl text-center flex flex-col items-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center text-[#2f855a] dark:text-green-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-3xl">🔔</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#2f855a] dark:text-green-400 mb-3 text-center">Instant Alerts</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm text-center leading-relaxed">Get instant alerts when new food is posted nearby.</p>
             </div>
 
-            <div className="hover-lift bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-[#f4a261] cursor-default">
-              <h3 className="text-xl font-bold text-[#f4a261] mb-3">📊 Impact Tracking</h3>
-              <p className="text-gray-700 dark:text-gray-300">See how much food was shared and people helped.</p>
+            {/* Impact Tracking */}
+            <div className="group hover:bg-white dark:hover:bg-gray-800 p-8 rounded-2xl transition-all duration-300 border border-transparent hover:border-orange-100 dark:hover:border-orange-900/30 hover:shadow-xl text-center flex flex-col items-center">
+              <div className="w-16 h-16 bg-orange-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center text-[#f4a261] mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-3xl">📊</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#f4a261] mb-3 text-center">Impact Tracking</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm text-center leading-relaxed">See how much food was shared and people helped.</p>
             </div>
-
           </div>
         </div>
 
