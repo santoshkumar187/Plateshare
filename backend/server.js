@@ -1,9 +1,11 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-dotenv.config();
+dotenv.config(); // Standard load
+dotenv.config({ path: path.join(__dirname, '.env') }); // Explicit load for subdirectory cases
 
 const app = express();
 
@@ -26,7 +28,7 @@ app.use('/api/messages', require('./routes/messages'));
 app.use('/api/ratings', require('./routes/ratings'));
 
 
-const path = require('path');
+
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ message: 'PlateShare API running' }));
